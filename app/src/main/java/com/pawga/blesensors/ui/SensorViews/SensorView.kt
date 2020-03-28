@@ -14,31 +14,22 @@ import com.pawga.blesensors.R
  */
 
 class SensorView(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
-    private val type: TextView
+    private val type: ImageView
     private val value: TextView
-    private val unit: TextView
-    private val colorView: View
-    private val colorTextView: TextView
-    private val sensorAlarm: ImageView
+    private val unit: ImageView
 
     init {
-        LinearLayout.inflate(context, R.layout.sensor_big_view, this)
-        val attributes = context.obtainStyledAttributes(attrs, R.styleable.SensorBigView)
+        LinearLayout.inflate(context, R.layout.sensor_view, this)
+        val attributes = context.obtainStyledAttributes(attrs, R.styleable.SensorView)
 
-        type = findViewById(R.id.sensorTypeTextView)
-        value = findViewById(R.id.sensorValueTextView)
-        unit = findViewById(R.id.sensorUnitTextView)
-        colorView = findViewById(R.id.sensorColorView)
-        colorTextView = findViewById(R.id.sensorColorTextView)
-        sensorAlarm = findViewById(R.id.sensorAlarmImageView)
+        type = findViewById(R.id.imageTypeView)
+        value = findViewById(R.id.valueTextView)
+        unit = findViewById(R.id.unitImageView)
 
         try {
-            val typeText = attributes.getString(R.styleable.SensorBigView_type)
-            val valueText = attributes.getString(R.styleable.SensorBigView_value)
-            val unitText = attributes.getString(R.styleable.SensorBigView_unit)
-            type.text = typeText
-            value.text = valueText
-            unit.text = unitText
+            type.setImageDrawable(attributes.getDrawable(R.styleable.SensorView_smallType))
+            value.text = attributes.getString(R.styleable.SensorView_smallValue)
+            unit.setImageDrawable(attributes.getDrawable(R.styleable.SensorView_smallUnit))
         } finally {
             attributes.recycle()
         }

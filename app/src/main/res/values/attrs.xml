@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<declare-styleable name="SensorBigView">
-    <attr name="type" format="string"/>
-    <attr name="value" format="string"/>
-    <attr name="unit" format="string"/>
-</declare-styleable>
+    <declare-styleable name="SensorBigView">
+        <attr name="bigType" format="string"/>
+        <attr name="bigValue" format="string"/>
+        <attr name="bigUnit" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="SensorView">
+        <attr name="smallType" format="string"/>
+        <attr name="smallValue" format="string"/>
+        <attr name="smallUnit" format="string"/>
+    </declare-styleable>
 
 </resources>

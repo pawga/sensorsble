@@ -34,12 +34,9 @@ class SensorBigView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
         sensorAlarm = findViewById(R.id.sensorAlarmImageView)
 
         try {
-            val typeText = attributes.getString(R.styleable.SensorBigView_type)
-            val valueText = attributes.getString(R.styleable.SensorBigView_value)
-            val unitText = attributes.getString(R.styleable.SensorBigView_unit)
-            type.text = typeText
-            value.text = valueText
-            unit.text = unitText
+            type.text = attributes.getString(R.styleable.SensorBigView_bigType)
+            value.text = attributes.getString(R.styleable.SensorBigView_bigValue)
+            unit.text  = attributes.getString(R.styleable.SensorBigView_bigUnit)
         } finally {
             attributes.recycle()
         }
