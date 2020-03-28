@@ -10,7 +10,7 @@
     <declare-styleable name="SensorView">
         <attr name="smallType" format="reference"/>
         <attr name="smallValue" format="string"/>
-        <attr name="smallUnit" format="reference"/>
+        <attr name="smallUnit" format="string"/>
     </declare-styleable>
 
 </resources>

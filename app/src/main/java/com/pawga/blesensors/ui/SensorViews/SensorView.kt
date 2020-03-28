@@ -16,7 +16,7 @@ import com.pawga.blesensors.R
 class SensorView(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
     private val type: ImageView
     private val value: TextView
-    private val unit: ImageView
+    private val unit: TextView
 
     init {
         LinearLayout.inflate(context, R.layout.sensor_view, this)
@@ -24,12 +24,12 @@ class SensorView(context: Context, attrs: AttributeSet) : ConstraintLayout(conte
 
         type = findViewById(R.id.imageTypeView)
         value = findViewById(R.id.valueTextView)
-        unit = findViewById(R.id.unitImageView)
+        unit = findViewById(R.id.unitValueView)
 
         try {
             type.setImageDrawable(attributes.getDrawable(R.styleable.SensorView_smallType))
             value.text = attributes.getString(R.styleable.SensorView_smallValue)
-            unit.setImageDrawable(attributes.getDrawable(R.styleable.SensorView_smallUnit))
+            unit.text = attributes.getString(R.styleable.SensorView_smallUnit)
         } finally {
             attributes.recycle()
         }

@@ -28,13 +28,14 @@
         android:textStyle="bold"
         tools:text="24" />
 
-    <ImageView
-        android:id="@+id/unitImageView"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="12dp"
+    <TextView
+        android:id="@+id/unitValueView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_weight="1"
-        android:contentDescription="@string/empty"
-        app:srcCompat="@drawable/ppb" />
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="ppm" />
 </LinearLayout>
