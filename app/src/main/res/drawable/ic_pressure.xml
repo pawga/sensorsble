@@ -36,7 +36,7 @@
   ~ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 
-<vector android:alpha="0.60" android:height="24dp"
+<vector android:alpha="1.0" android:height="24dp"
     android:viewportHeight="295.82" android:viewportWidth="295.82"
     android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#010002" android:pathData="M158.12,137.51l-4.87,-65.43c-1.09,-14.69 -2.3,-17.18 -5.34,-17.18s-4.25,2.49 -5.34,17.18l-4.87,65.43c-3.92,3.05 -6.48,7.76 -6.48,13.11c0,6.24 3.47,11.62 8.55,14.48l2.57,28.44c1.21,13.38 2.7,15.64 5.57,15.64s4.37,-2.26 5.57,-15.64l2.57,-28.44c5.07,-2.86 8.55,-8.24 8.55,-14.48C164.6,145.28 162.04,140.57 158.12,137.51zM147.91,73.6l4.54,61.04c-1.45,-0.41 -2.95,-0.7 -4.54,-0.7s-3.08,0.29 -4.54,0.7L147.91,73.6zM148.07,193.06c-0.05,0.59 -0.11,1.14 -0.16,1.67c-0.05,-0.53 -0.11,-1.09 -0.16,-1.67l-2.35,-26c0.82,0.13 1.65,0.25 2.51,0.25s1.68,-0.13 2.51,-0.25L148.07,193.06z"/>

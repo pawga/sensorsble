@@ -35,12 +35,36 @@
         android:id="@+id/sensorHumidityView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="64dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/sensorTemperatureView"
         app:smallType="@drawable/ic_humidity"
         app:smallUnit="@drawable/percent"
         app:smallValue="32">
+    </com.pawga.blesensors.ui.SensorViews.SensorView>
+
+    <com.pawga.blesensors.ui.SensorViews.SensorView
+        android:id="@+id/sensorPressureView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@+id/sensorHumidityView"
+        app:layout_constraintTop_toBottomOf="@+id/sensorHumidityView"
+        app:smallType="@drawable/ic_pressure"
+        app:smallUnit="@drawable/hpa"
+        app:smallValue="1105">
+    </com.pawga.blesensors.ui.SensorViews.SensorView>
+
+    <com.pawga.blesensors.ui.SensorViews.SensorView
+        android:id="@+id/sensorLeafView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@+id/sensorTemperatureView"
+        app:layout_constraintTop_toBottomOf="@+id/sensorTemperatureView"
+        app:smallType="@drawable/ic_leaf"
+        app:smallUnit="@drawable/ppb"
+        app:smallValue="122">
     </com.pawga.blesensors.ui.SensorViews.SensorView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

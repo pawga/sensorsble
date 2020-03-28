@@ -8,10 +8,10 @@
 
     <ImageView
         android:id="@+id/imageTypeView"
-        android:layout_width="32dp"
+        android:layout_width="36dp"
         android:layout_height="48dp"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="4dp"
         android:layout_weight="1"
         android:contentDescription="@string/empty"
         android:textColor="@android:color/black"
@@ -21,12 +21,12 @@
         android:id="@+id/valueTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_weight="1"
-        tools:text="24"
         android:textColor="@android:color/black"
-        android:textSize="56sp"
-        android:textStyle="bold" />
+        android:textSize="36sp"
+        android:textStyle="bold"
+        tools:text="24" />
 
     <ImageView
         android:id="@+id/unitImageView"
@@ -36,5 +36,5 @@
         android:layout_marginBottom="12dp"
         android:layout_weight="1"
         android:contentDescription="@string/empty"
-        app:srcCompat="@drawable/degrees" />
+        app:srcCompat="@drawable/ppb" />
 </LinearLayout>

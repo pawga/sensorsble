@@ -36,7 +36,7 @@
   ~ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 
-<vector android:alpha="0.60" android:height="24dp"
+<vector android:alpha="1.0" android:height="24dp"
     android:viewportHeight="1000.0" android:viewportWidth="1000.0"
     android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#00000000"
