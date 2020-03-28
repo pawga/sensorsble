@@ -14,7 +14,8 @@
         android:layout_marginBottom="12dp"
         android:layout_weight="1"
         android:contentDescription="@string/empty"
-        app:srcCompat="@drawable/temperature_without_background" />
+        android:textColor="@android:color/black"
+        app:srcCompat="@drawable/ic_temp" />
 
     <TextView
         android:id="@+id/valueTextView"

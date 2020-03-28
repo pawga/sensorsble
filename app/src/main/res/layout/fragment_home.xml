@@ -26,7 +26,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sensorBigView"
-        app:smallType="@drawable/temperature_without_background"
+        app:smallType="@drawable/ic_temp"
         app:smallUnit="@drawable/degrees"
         app:smallValue="26">
     </com.pawga.blesensors.ui.SensorViews.SensorView>
@@ -38,7 +38,7 @@
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/sensorTemperatureView"
-        app:smallType="@drawable/humidity_without_background"
+        app:smallType="@drawable/ic_humidity"
         app:smallUnit="@drawable/percent"
         app:smallValue="32">
     </com.pawga.blesensors.ui.SensorViews.SensorView>
