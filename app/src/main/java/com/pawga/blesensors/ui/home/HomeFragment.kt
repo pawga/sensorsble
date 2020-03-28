@@ -32,9 +32,9 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = homeViewModel
 
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            binding.textHome.text = it
-        })
+//        homeViewModel.text.observe(viewLifecycleOwner, Observer {
+//            binding.textHome.text = it
+//        })
 
         return binding.root
     }

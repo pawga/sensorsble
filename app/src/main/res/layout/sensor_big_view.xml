@@ -137,8 +137,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="?android:attr/colorForeground"
-            tools:text="1000" />
+            android:text="@string/text1000"
+            android:textColor="?android:attr/colorForeground" />
 
         <TextView
             android:id="@+id/sensorText2000View"
@@ -147,7 +147,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="?android:attr/colorForeground"
-            tools:text="2000" />
+            android:text="@string/text2000" />
 
         <TextView
             android:id="@+id/sensorText5000View"
@@ -156,7 +156,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="?android:attr/colorForeground"
-            tools:text="5000" />
+            android:text="@string/text5000" />
     </LinearLayout>
 
     <ImageView

@@ -13,4 +13,7 @@
     <string name="empty">Empty</string>
 
     <string name="home_second">Home Second</string>
+    <string name="text1000">1000</string>
+    <string name="text2000">2000</string>
+    <string name="text5000">5000</string>
 </resources>
