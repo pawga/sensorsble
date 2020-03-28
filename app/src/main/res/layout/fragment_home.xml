@@ -18,44 +18,17 @@
         app:bigValue="766">
     </com.pawga.blesensors.ui.SensorViews.SensorBigView>
 
-    <LinearLayout
+    <com.pawga.blesensors.ui.SensorViews.SensorView
+        android:id="@+id/sensorTemperatureView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sensorBigView">
+        app:layout_constraintTop_toBottomOf="@+id/sensorBigView"
+        app:smallType="@drawable/temperature_without_background"
+        app:smallValue="26"
+        app:smallUnit="@drawable/degrees">
+    </com.pawga.blesensors.ui.SensorViews.SensorView>
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="32dp"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="12dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/temperature_without_background" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:text="24"
-            android:textColor="@android:color/black"
-            android:textSize="56sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="12dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/degrees" />
-
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
