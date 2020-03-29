@@ -16,4 +16,8 @@
     <string name="text1000">1000</string>
     <string name="text2000">2000</string>
     <string name="text5000">5000</string>
+
+    <string name="search">Search</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>
