@@ -2,13 +2,16 @@ package com.pawga.blesensors.ui.scanble
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.pawga.blesensors.ui.home.HomeViewModel
+import com.pawga.common.bluetooth.BluetoothManager
+import org.koin.android.ext.android.inject
+import org.koin.experimental.property.inject
 import timber.log.Timber
 
-class ScanViewModel : ViewModel() {
+class ScanViewModel(val bluetoothManager: BluetoothManager) : ViewModel() {
 
     fun start() {
         Timber.d("start")
+        bluetoothManager.test()
     }
 
     fun stop() {
@@ -18,11 +21,11 @@ class ScanViewModel : ViewModel() {
     /**
      * Factory for [LiveDataViewModel].
      */
-    object ViewModelFactory : ViewModelProvider.Factory {
+    class ViewModelFactory(val bluetoothManager: BluetoothManager) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return ScanViewModel() as T
+            return ScanViewModel(bluetoothManager) as T
         }
     }
 }
