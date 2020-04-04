@@ -5,6 +5,8 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.provider.Settings.SettingNotFoundException
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +16,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.pawga.blesensors.R
 import com.pawga.blesensors.databinding.ScanFragmentBinding
+import com.pawga.blesensors.ui.MessageDialogFragment
 import com.pawga.blesensors.ui.PermissionRationaleDialogFragment
 import com.pawga.common.bluetooth.BluetoothManager
 import com.pawga.common.bluetooth.REQUEST_ACCESS_COARSE_LOCATION
 import com.pawga.common.bluetooth.REQUEST_ACCESS_FINE_LOCATION
 import com.pawga.common.bluetooth.showToast
 import org.koin.android.ext.android.inject
-import timber.log.Timber
 
 class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDialogListener {
 
@@ -112,27 +114,35 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
         }
     }
 
+    fun isLocationEnabled(): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            var locationMode = Settings.Secure.LOCATION_MODE_OFF
+            try {
+                locationMode = Settings.Secure.getInt(
+                    requireContext().contentResolver,
+                    Settings.Secure.LOCATION_MODE
+                )
+            } catch (e: SettingNotFoundException) {
+                // do nothing
+            }
+            return locationMode != Settings.Secure.LOCATION_MODE_OFF
+        }
+        return true
+    }
+
     private fun prepareForScanning() {
         if (checkIfRequiredPermissionsGranted()) {
-            Timber.d("prepareForScanning")
-//            if (isLocationEnabled()) {
-//                if (mBinder != null) {
-//                    mBinder.setScanningState(true)
-//                    if (nfcInitiated) {
-//                        showConnectionProgressDialog(getString(R.string.nfc_tag_connecting))
-//                    } else {
-//                        showConnectionProgressDialog(getString(R.string.state_connecting))
-//                    }
-//                    startScan()
-//                }
-//            } else {
-//                val messageDialogFragment: MessageDialogFragment =
-//                    MessageDialogFragment.newInstance(
-//                        getString(R.string.location_services_title),
-//                        getString(R.string.rationale_message_location)
-//                    )
-//                messageDialogFragment.show(getSupportFragmentManager(), null)
-//            }
+            if (isLocationEnabled()) {
+                // установить статус поиска
+                bluetoothManager.startScan()
+            } else {
+                val messageDialogFragment: MessageDialogFragment =
+                    MessageDialogFragment.newInstance(
+                        getString(R.string.location_services_title),
+                        getString(R.string.rationale_message_location)
+                    )
+                messageDialogFragment.show(childFragmentManager, null)
+            }
         }
     }
 }
