@@ -43,8 +43,7 @@ android {
 }
 
 dependencies {
-    def timber_version = '4.7.1'
-    
+    implementation project(path: ':common')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -59,6 +58,12 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'no.nordicsemi.android.support.v18:scanner:1.4.3'
+
+// Koin AndroidX Scope features
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    implementation "org.koin:koin-androidx-fragment:$koin_version"
+    implementation "org.koin:koin-androidx-ext:$koin_version"
 
     // Tools
     implementation "com.jakewharton.timber:timber:$timber_version"

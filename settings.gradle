@@ -1,2 +1,3 @@
 rootProject.name='Sensors Application'
 include ':app'
+include ':common'
