@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 
 import com.pawga.blesensors.R
+import com.pawga.blesensors.databinding.ScanFragmentBinding
 import com.pawga.blesensors.ui.home.HomeViewModel
 
 class ScanFragment : Fragment() {
@@ -20,6 +22,17 @@ class ScanFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.scan_fragment, container, false)
+
+        val binding: ScanFragmentBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.scan_fragment,
+            container,
+            false
+        )
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+        return binding.root
+
+        //return inflater.inflate(R.layout.scan_fragment, container, false)
     }
 }
