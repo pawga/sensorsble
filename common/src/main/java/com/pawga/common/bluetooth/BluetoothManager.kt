@@ -15,9 +15,10 @@ class BluetoothManager {
 
     var isScanning = false
 
-    fun test() {
-        Timber.d("test")
-    }
+    val thingyBaseUuid: UUID
+        get() {
+            return ThingyUtils.THINGY_BASE_UUID
+        }
 
     fun startScan() {
         if (isScanning) {
