@@ -9,18 +9,16 @@ import timber.log.Timber
 
 class ScanViewModel(val bluetoothManager: BluetoothManager) : ViewModel() {
 
-    fun start() {
-        Timber.d("start")
-    }
+    var callBackScanning: (() -> Unit)? = null
 
-    fun stop() {
-        Timber.d("stop")
+    fun scan() {
+        callBackScanning?.invoke()
     }
 
     /**
      * Factory for [LiveDataViewModel].
      */
-    class ViewModelFactory(val bluetoothManager: BluetoothManager) : ViewModelProvider.Factory {
+    class ViewModelFactory(private val bluetoothManager: BluetoothManager) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")

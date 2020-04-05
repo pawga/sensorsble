@@ -33,5 +33,7 @@
     <string name="scanner_empty">No device found</string>
     <string name="scanner_subtitle_not_bonded">AVAILABLE DEVICES:</string>
     <string name="not_available">n/a</string>
+    <string name="scanning">Scanning…</string>
+    <string name="scan_stopped">Scan stopped</string>
 
 </resources>

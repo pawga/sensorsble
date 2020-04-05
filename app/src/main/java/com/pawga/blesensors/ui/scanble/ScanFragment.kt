@@ -34,20 +34,30 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
     private val viewModel: ScanViewModel by viewModels { ScanViewModel.ViewModelFactory(bluetoothManager) }
     private var isScanning = false
     private val handler = Handler()
+    private val adapter = DeviceListAdapter()
+    private lateinit var binding: ScanFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding: ScanFragmentBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.scan_fragment,
             container,
             false
         )
+        binding.devicesList.adapter = adapter
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        viewModel.callBackScanning = {
+            if (isScanning) {
+                stopScan()
+            } else {
+                startScan()
+            }
+        }
         return binding.root
     }
 
@@ -109,10 +119,12 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
                 REQUEST_PERMISSION_REQ_CODE)
             return
         }
-//        mAdapter.clearDevices()
-//        mScanButton.setText(R.string.scanner_action_cancel)
-//        troubleshootView.setVisibility(View.VISIBLE)
+
+        adapter.clearDevices()
+        binding.satusTextView.setText(R.string.scanning)
+        binding.statusProgressBar.visibility = View.VISIBLE
         if (isScanning) return
+
         val scanner = BluetoothLeScannerCompat.getScanner()
         val settings =
             ScanSettings.Builder()
@@ -141,6 +153,8 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
             val scanner = BluetoothLeScannerCompat.getScanner()
             scanner.stopScan(scanCallback)
             isScanning = false
+            binding.statusProgressBar.visibility = View.INVISIBLE
+            binding.satusTextView.setText(R.string.scan_stopped)
         }
     }
 
@@ -154,11 +168,8 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
             }
 
             override fun onBatchScanResults(results: List<ScanResult>) {
-                Timber.d("onBatchScanResults results.size: ${results.size}")
-//                if (results.size > 0 && troubleshootView.getVisibility() == View.VISIBLE) {
-//                    troubleshootView.setVisibility(View.GONE)
-//                }
-//                mAdapter.update(results)
+                //Timber.d("onBatchScanResults results.size: ${results.size}")
+                adapter.update(results)
             }
 
             override fun onScanFailed(errorCode: Int) {

@@ -67,7 +67,7 @@ class DeviceListAdapter : BaseAdapter() {
                 if (view == null) {
                     view = inflater.inflate(R.layout.device_list_title, parent, false)
                 }
-                val title = view as TextView?
+                val title = view?.findViewById(R.id.scan_items_title) as? TextView
                 title?.setText((getItem(position) as Int))
             }
             else -> {
