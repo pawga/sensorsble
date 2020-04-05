@@ -30,5 +30,6 @@
     <string name="requested_permission_not_granted_rationale">Requested permission not granted yet!</string>
     <string name="location_services_title">Location services disabled.</string>
     <string name="ok">OK</string>
+    <string name="scanner_empty">No device found</string>
 
 </resources>

@@ -78,8 +78,7 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
         return if (checkIfVersionIsQ()) {
             if (ActivityCompat.checkSelfPermission(
                     requireContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
             ) {
                 true
             } else {
@@ -95,8 +94,7 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
         } else if (checkIfVersionIsMarshmallowOrAbove()) {
             if (ActivityCompat.checkSelfPermission(
                     requireContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
+                    Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
             ) {
                 true
             } else {

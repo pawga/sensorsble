@@ -76,6 +76,7 @@ class BluetoothManager {
             ) {
                 // do nothing
                 val device = result.device
+                Timber.d("scanCallback ${result.device} ${result.scanRecord?.deviceName}")
                 if (address != null && address == device.address) {
                     //mProgressHandler.removeCallbacks(mProgressDialogRunnable)
                     stopScan()
