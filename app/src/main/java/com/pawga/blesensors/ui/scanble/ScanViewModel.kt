@@ -11,7 +11,6 @@ class ScanViewModel(val bluetoothManager: BluetoothManager) : ViewModel() {
 
     fun start() {
         Timber.d("start")
-        bluetoothManager.test()
     }
 
     fun stop() {

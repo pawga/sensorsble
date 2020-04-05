@@ -31,5 +31,7 @@
     <string name="location_services_title">Location services disabled.</string>
     <string name="ok">OK</string>
     <string name="scanner_empty">No device found</string>
+    <string name="scanner_subtitle_not_bonded">AVAILABLE DEVICES:</string>
+    <string name="not_available">n/a</string>
 
 </resources>
