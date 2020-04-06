@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.pawga.blesensors.R
 import com.pawga.blesensors.databinding.ScanFragmentBinding
 import com.pawga.blesensors.ui.PermissionRationaleDialogFragment
@@ -27,7 +28,7 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
     private val bluetoothManager: BluetoothManager by inject()
 
     private val viewModel: ScanViewModel by viewModels { ScanViewModel.ViewModelFactory(bluetoothManager) }
-    private val adapter = OldDeviceListAdapter()
+    private val adapter = DeviceListAdapter()
     private lateinit var binding: ScanFragmentBinding
 
     override fun onCreateView(
@@ -42,6 +43,8 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
             false
         )
         binding.devicesList.adapter = adapter
+        binding.devicesList.layoutManager =
+            LinearLayoutManager(binding.root.context, LinearLayoutManager.VERTICAL, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         viewModel.callBackScanning = {

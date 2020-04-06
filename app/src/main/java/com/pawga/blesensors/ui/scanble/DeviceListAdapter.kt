@@ -70,6 +70,11 @@ class DeviceListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun clearDevices() {
+        devices.clear()
+        notifyDataSetChanged()
+    }
+
     private fun findDevice(result: ScanResult): ExtendedBluetoothDevice? {
         for (device in devices) if (device.matches(result)) return device
         return null
