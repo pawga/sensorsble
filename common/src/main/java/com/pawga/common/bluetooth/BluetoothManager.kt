@@ -3,6 +3,9 @@ package com.pawga.common.bluetooth
 import android.bluetooth.BluetoothDevice
 import android.os.Handler
 import android.os.ParcelUuid
+import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import no.nordicsemi.android.support.v18.scanner.*
 import no.nordicsemi.android.thingylib.utils.ThingyUtils
 import timber.log.Timber
@@ -14,61 +17,53 @@ import java.util.*
 class BluetoothManager {
 
     var isScanning = false
+        private set
 
     val thingyBaseUuid: UUID
         get() {
             return ThingyUtils.THINGY_BASE_UUID
         }
 
+    private val SCAN_DURATION: Long = 80000 // настроить
+    private val handler = Handler()
+
+    private val _scanResults = MutableLiveData<List<ScanResult>>()
+    val scanResults: LiveData<List<ScanResult>> = _scanResults
+
     fun startScan() {
-        if (isScanning) {
-            return
-        }
+        if (isScanning) return
+
         val scanner = BluetoothLeScannerCompat.getScanner()
         val settings =
             ScanSettings.Builder()
                 .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
-                .setReportDelay(0).setUseHardwareBatchingIfSupported(false)
-                .setUseHardwareFilteringIfSupported(false)
-                .build()
-        val filters: MutableList<ScanFilter> = ArrayList()
+                .setReportDelay(750).setUseHardwareBatchingIfSupported(false)
+                .setUseHardwareFilteringIfSupported(false).build()
+        val filters: MutableList<ScanFilter> =
+            ArrayList()
         filters.add(
             ScanFilter.Builder().setServiceUuid(
-                ParcelUuid(ThingyUtils.THINGY_BASE_UUID)
+                ParcelUuid(thingyBaseUuid)
             ).build()
         )
         scanner.startScan(filters, settings, scanCallback)
         isScanning = true
+        handler.postDelayed(Runnable {
+            if (isScanning) {
+                stopScan()
+            }
+        }, SCAN_DURATION)
     }
 
-    private fun stopScan() {
+    fun stopScan() {
         if (isScanning) {
-            Timber.v("Stopping scan")
+            //mScanButton.setText(R.string.scanner_action_scan)
             val scanner = BluetoothLeScannerCompat.getScanner()
             scanner.stopScan(scanCallback)
             isScanning = false
         }
     }
 
-    private fun connect() {
-//        mThingySdkManager.connectToThingy(this, mDevice, ThingyService::class.java)
-//        val thingy = Thingy(mDevice)
-//        mThingySdkManager.setSelectedDevice(mDevice)
-//        updateSelectionInDb(thingy, true)
-    }
-
-    private fun connect(device: BluetoothDevice) {
-//        mThingySdkManager.connectToThingy(this, device, ThingyService::class.java)
-//        val thingy = Thingy(device)
-//        mThingySdkManager.setSelectedDevice(device)
-//        updateSelectionInDb(thingy, true)
-//        updateUiOnBind()
-    }
-
-    private val device: BluetoothDevice? = null
-    private val oldDevice: BluetoothDevice? = null
-
-    private var address: String? = null
     private val scanCallback: ScanCallback =
         object : ScanCallback() {
             override fun onScanResult(
@@ -76,27 +71,14 @@ class BluetoothManager {
                 result: ScanResult
             ) {
                 // do nothing
-                val device = result.device
-                Timber.d("scanCallback ${result.device} ${result.scanRecord?.deviceName}")
-                if (address != null && address == device.address) {
-                    //mProgressHandler.removeCallbacks(mProgressDialogRunnable)
-                    stopScan()
-                    connect(device)
-                    address = null
-                    return
-                }
-                if (device == this@BluetoothManager.device) {
-                    Handler().post {
-                        stopScan()
-                        connect()
-                    }
-                }
             }
 
-            override fun onBatchScanResults(results: List<ScanResult>) {}
+            override fun onBatchScanResults(results: List<ScanResult>) {
+                _scanResults.value = results
+            }
+
             override fun onScanFailed(errorCode: Int) {
                 // should never be called
-                Timber.i("onScanFailed")
             }
         }
 }

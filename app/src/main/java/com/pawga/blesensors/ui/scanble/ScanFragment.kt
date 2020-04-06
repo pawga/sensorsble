@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
-import android.os.ParcelUuid
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,25 +14,20 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.pawga.blesensors.R
 import com.pawga.blesensors.databinding.ScanFragmentBinding
 import com.pawga.blesensors.ui.PermissionRationaleDialogFragment
 import com.pawga.common.bluetooth.BluetoothManager
 import com.pawga.common.bluetooth.showToast
-import no.nordicsemi.android.support.v18.scanner.*
 import org.koin.android.ext.android.inject
-import timber.log.Timber
-import java.util.*
 
 class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDialogListener {
 
     private val REQUEST_PERMISSION_REQ_CODE = 76 // any 8-bit number
-    private val SCAN_DURATION: Long = 80000
     private val bluetoothManager: BluetoothManager by inject()
 
     private val viewModel: ScanViewModel by viewModels { ScanViewModel.ViewModelFactory(bluetoothManager) }
-    private var isScanning = false
-    private val handler = Handler()
     private val adapter = DeviceListAdapter()
     private lateinit var binding: ScanFragmentBinding
 
@@ -52,12 +46,17 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         viewModel.callBackScanning = {
-            if (isScanning) {
+            if (bluetoothManager.isScanning) {
                 stopScan()
             } else {
                 startScan()
             }
         }
+
+        bluetoothManager.scanResults.observe(viewLifecycleOwner, Observer {
+            adapter.update(it)
+        })
+
         return binding.root
     }
 
@@ -121,59 +120,18 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
         }
 
         adapter.clearDevices()
+
         binding.satusTextView.setText(R.string.scanning)
         binding.statusProgressBar.visibility = View.VISIBLE
-        if (isScanning) return
 
-        val scanner = BluetoothLeScannerCompat.getScanner()
-        val settings =
-            ScanSettings.Builder()
-                .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
-                .setReportDelay(750).setUseHardwareBatchingIfSupported(false)
-                .setUseHardwareFilteringIfSupported(false).build()
-        val filters: MutableList<ScanFilter> =
-            ArrayList()
-        filters.add(
-            ScanFilter.Builder().setServiceUuid(
-                ParcelUuid(bluetoothManager.thingyBaseUuid)
-            ).build()
-        )
-        scanner.startScan(filters, settings, scanCallback)
-        isScanning = true
-        handler.postDelayed(Runnable {
-            if (isScanning) {
-                stopScan()
-            }
-        }, SCAN_DURATION)
+        bluetoothManager.startScan()
     }
 
     private fun stopScan() {
-        if (isScanning) {
-            //mScanButton.setText(R.string.scanner_action_scan)
-            val scanner = BluetoothLeScannerCompat.getScanner()
-            scanner.stopScan(scanCallback)
-            isScanning = false
+        if (bluetoothManager.isScanning) {
+            bluetoothManager.stopScan()
             binding.statusProgressBar.visibility = View.INVISIBLE
             binding.satusTextView.setText(R.string.scan_stopped)
         }
     }
-
-    private val scanCallback: ScanCallback =
-        object : ScanCallback() {
-            override fun onScanResult(
-                callbackType: Int,
-                result: ScanResult
-            ) {
-                // do nothing
-            }
-
-            override fun onBatchScanResults(results: List<ScanResult>) {
-                //Timber.d("onBatchScanResults results.size: ${results.size}")
-                adapter.update(results)
-            }
-
-            override fun onScanFailed(errorCode: Int) {
-                // should never be called
-            }
-        }
 }
