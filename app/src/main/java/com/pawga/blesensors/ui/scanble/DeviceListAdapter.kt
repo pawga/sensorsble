@@ -1,112 +1,66 @@
 package com.pawga.blesensors.ui.scanble
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.pawga.blesensors.R
+import com.pawga.blesensors.extensions.inflate
 import com.pawga.blesensors.model.ExtendedBluetoothDevice
+import kotlinx.android.synthetic.main.device_list_row.view.*
 import no.nordicsemi.android.support.v18.scanner.ScanResult
-import java.util.*
+import timber.log.Timber
+import java.util.ArrayList
 
 /**
  * Created by sivannikov
  */
-
-class DeviceListAdapter : BaseAdapter() {
+class DeviceListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val norssi = -1000
+    private val devices: MutableList<ExtendedBluetoothDevice> = ArrayList<ExtendedBluetoothDevice>()
 
-    private val mDevices: MutableList<ExtendedBluetoothDevice> =
-        ArrayList<ExtendedBluetoothDevice>()
-
-    override fun getCount(): Int {
-        return if (mDevices.isEmpty()) 2 else mDevices.size + 1 // 1 for title, 1 for empty text
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            TYPE_ITEM -> return ViewHolderItem(parent.inflate(R.layout.device_list_row, false))
+            TYPE_TITLE -> return ViewHolderTitle(parent.inflate(R.layout.device_list_title, false))
+            else -> ViewHolderEmpty(parent.inflate(R.layout.device_list_empty, false))
+        }
     }
 
-    override fun getItem(position: Int): Any {
-        return if (position == 0) R.string.scanner_subtitle_not_bonded else mDevices[position - 1]
+    override fun getItemCount(): Int {
+        return if (devices.isEmpty()) 2 else devices.size + 1 // 1 for title, 1 for empty text
     }
 
-    override fun getViewTypeCount(): Int {
-        return 3
-    }
-
-    override fun areAllItemsEnabled(): Boolean {
-        return false
-    }
-
-    override fun isEnabled(position: Int): Boolean {
-        return getItemViewType(position) == TYPE_ITEM
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (getItemViewType(position) == TYPE_ITEM ) {
+            val viewHolder = holder as? ViewHolderItem ?: return
+            val device = devices[position - 1]
+            viewHolder.name.text = device.name ?: viewHolder.view.context.getString(R.string.not_available)
+            viewHolder.address.text = device.device.address
+            if (device.rssi != norssi) {
+                val rssiPercent =
+                    (100.0f * (127.0f + device.rssi) / (127.0f + 20.0f)).toInt()
+                viewHolder.rssi.setImageLevel(rssiPercent)
+                viewHolder.rssi.visibility = View.VISIBLE
+            } else {
+                viewHolder.rssi.visibility = View.GONE
+                viewHolder.thingy.visibility = View.GONE
+            }
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
         if (position == 0) return TYPE_TITLE
-        return if (position == count - 1 && mDevices.isEmpty()) TYPE_EMPTY else TYPE_ITEM
-    }
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
-    override fun getView(
-        position: Int,
-        oldView: View?,
-        parent: ViewGroup
-    ): View? {
-        val inflater = LayoutInflater.from(parent.context)
-        val type = getItemViewType(position)
-        var view = oldView
-        when (type) {
-            TYPE_EMPTY -> if (view == null) {
-                view = inflater.inflate(R.layout.device_list_empty, parent, false)
-            }
-            TYPE_TITLE -> {
-                if (view == null) {
-                    view = inflater.inflate(R.layout.device_list_title, parent, false)
-                }
-                val title = view?.findViewById(R.id.scan_items_title) as? TextView
-                title?.setText((getItem(position) as Int))
-            }
-            else -> {
-                if (view == null) {
-                    view = inflater.inflate(R.layout.device_list_row, parent, false)
-                    val holder = ViewHolder()
-                    holder.name = view.findViewById(R.id.name)
-                    holder.address = view.findViewById(R.id.address)
-                    holder.thingy = view.findViewById(R.id.icon_view)
-                    holder.rssi = view.findViewById(R.id.rssi)
-                    view.tag = holder
-                }
-                val device = getItem(position)
-                        as ExtendedBluetoothDevice? ?: return null
-                val holder =
-                    view?.tag as ViewHolder? ?: return null
-
-                val name = device.name
-                holder.name?.text = name ?: parent.context.getString(R.string.not_available)
-                holder.address?.text = device.device.address
-                if (device.rssi != norssi) {
-                    val rssiPercent =
-                        (100.0f * (127.0f + device.rssi) / (127.0f + 20.0f)).toInt()
-                    holder.rssi?.setImageLevel(rssiPercent)
-                    holder.rssi?.visibility = View.VISIBLE
-                } else {
-                    holder.rssi?.visibility = View.GONE
-                    holder.thingy?.visibility = View.GONE
-                }
-            }
-        }
-        return view
+        return if (position == itemCount - 1 && devices.isEmpty()) TYPE_EMPTY else TYPE_ITEM
     }
 
     fun update(results: List<ScanResult>) {
         for (result in results) {
             val device: ExtendedBluetoothDevice? = findDevice(result)
             if (device == null) {
-                mDevices.add(ExtendedBluetoothDevice(result))
+                devices.add(ExtendedBluetoothDevice(result))
             } else {
                 device.name = if (result.scanRecord != null) result.scanRecord!!
                     .deviceName else null
@@ -116,22 +70,28 @@ class DeviceListAdapter : BaseAdapter() {
         notifyDataSetChanged()
     }
 
-    fun clearDevices() {
-        mDevices.clear()
-        notifyDataSetChanged()
-    }
-
     private fun findDevice(result: ScanResult): ExtendedBluetoothDevice? {
-        for (device in mDevices) if (device.matches(result)) return device
+        for (device in devices) if (device.matches(result)) return device
         return null
     }
 
-    private inner class ViewHolder {
-        var name: TextView? = null
-        var address: TextView? = null
-        var rssi: ImageView? = null
-        var thingy: ImageView? = null
+    class ViewHolderItem(val view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+        val name: TextView = view.name
+        val address: TextView = view.address
+        val rssi: ImageView = view.rssi
+        val thingy: ImageView = view.icon_view
+
+        init {
+            view.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            Timber.d("onClick")
+        }
     }
+
+    class ViewHolderEmpty(view: View) : RecyclerView.ViewHolder(view)
+    class ViewHolderTitle(view: View) : RecyclerView.ViewHolder(view)
 
     companion object {
         private const val TYPE_TITLE = 0

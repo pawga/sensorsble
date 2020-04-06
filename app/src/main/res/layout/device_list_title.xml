@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/empty"
+        android:text="@string/scanner_subtitle_not_bonded"
         android:textSize="18sp"
         android:textStyle="bold" />
 </FrameLayout>
