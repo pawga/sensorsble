@@ -14,6 +14,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pawga.blesensors.R
 import com.pawga.blesensors.databinding.ScanFragmentBinding
@@ -28,13 +30,15 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
     private val bluetoothManager: BluetoothManager by inject()
 
     private val viewModel: ScanViewModel by viewModels { ScanViewModel.ViewModelFactory(bluetoothManager) }
-    private val adapter = DeviceListAdapter()
+    private lateinit var adapter: DeviceListAdapter
     private lateinit var binding: ScanFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        adapter = DeviceListAdapter(viewModel)
 
         binding = DataBindingUtil.inflate(
             inflater,
@@ -57,6 +61,12 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
 
         bluetoothManager.scanResults.observe(viewLifecycleOwner, Observer {
             adapter.update(it)
+        })
+
+        bluetoothManager.bluetoothDevice.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                findNavController().popBackStack()
+            }
         })
 
         return binding.root

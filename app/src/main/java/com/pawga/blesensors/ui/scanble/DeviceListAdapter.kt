@@ -16,7 +16,7 @@ import java.util.ArrayList
 /**
  * Created by sivannikov
  */
-class DeviceListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class DeviceListAdapter(private val viewModel: ScanViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val norssi = -1000
     private val devices: MutableList<ExtendedBluetoothDevice> = ArrayList<ExtendedBluetoothDevice>()
@@ -39,6 +39,7 @@ class DeviceListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             val device = devices[position - 1]
             viewHolder.name.text = device.name ?: viewHolder.view.context.getString(R.string.not_available)
             viewHolder.address.text = device.device.address
+            viewHolder.extendedBluetoothDevice = device
             if (device.rssi != norssi) {
                 val rssiPercent =
                     (100.0f * (127.0f + device.rssi) / (127.0f + 20.0f)).toInt()
@@ -80,18 +81,20 @@ class DeviceListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return null
     }
 
-    class ViewHolderItem(val view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class ViewHolderItem(val view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val name: TextView = view.name
         val address: TextView = view.address
         val rssi: ImageView = view.rssi
         val thingy: ImageView = view.icon_view
+        var extendedBluetoothDevice: ExtendedBluetoothDevice? = null
 
         init {
             view.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
-            Timber.d("onClick")
+            val device = extendedBluetoothDevice?.device ?: return
+            this@DeviceListAdapter.viewModel.selectBluetoothDevice(device)
         }
     }
 

@@ -1,18 +1,24 @@
 package com.pawga.blesensors.ui.scanble
 
+import android.bluetooth.BluetoothDevice
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.pawga.blesensors.model.ExtendedBluetoothDevice
 import com.pawga.common.bluetooth.BluetoothManager
 import org.koin.android.ext.android.inject
 import org.koin.experimental.property.inject
 import timber.log.Timber
 
-class ScanViewModel(val bluetoothManager: BluetoothManager) : ViewModel() {
+class ScanViewModel(private val bluetoothManager: BluetoothManager) : ViewModel() {
 
     var callBackScanning: (() -> Unit)? = null
 
     fun scan() {
         callBackScanning?.invoke()
+    }
+
+    fun selectBluetoothDevice(device: BluetoothDevice?) {
+        bluetoothManager.bluetoothDevice.value = device
     }
 
     /**

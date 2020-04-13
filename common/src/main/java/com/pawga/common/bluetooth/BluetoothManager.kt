@@ -30,6 +30,8 @@ class BluetoothManager {
     private val _scanResults = MutableLiveData<List<ScanResult>>()
     val scanResults: LiveData<List<ScanResult>> = _scanResults
 
+    val bluetoothDevice = MutableLiveData<BluetoothDevice?>()
+
     fun startScan() {
         if (isScanning) return
 
