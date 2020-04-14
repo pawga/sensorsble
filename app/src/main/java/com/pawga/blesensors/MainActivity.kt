@@ -1,29 +1,39 @@
 package com.pawga.blesensors
 
+import android.bluetooth.BluetoothDevice
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.Observer
-import androidx.navigation.NavController
+import com.google.android.material.navigation.NavigationView
 import com.pawga.common.bluetooth.BluetoothManager
+import com.pawga.common.bluetooth.ThingyService
+import com.pawga.common.bluetooth.ThingyService.ThingyBinder
+import com.pawga.common.bluetooth.showToast
+import no.nordicsemi.android.thingylib.ThingyListener
+import no.nordicsemi.android.thingylib.ThingyListenerHelper
+import no.nordicsemi.android.thingylib.ThingySdkManager
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), ThingySdkManager.ServiceConnectionListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
+    private lateinit var thingySdkManager: ThingySdkManager
+    private var binder: ThingyBinder? = null
+    private var device: BluetoothDevice? = null
+
     private val bluetoothManager: BluetoothManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,11 +52,34 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        thingySdkManager = ThingySdkManager.getInstance()
+
         bluetoothManager.bluetoothDevice.observe(this, Observer {
             if (it != null) {
-                Timber.d(it.name)
+                thingySdkManager.connectToThingy(this, device, ThingyService::class.java)
+                device = it
+            } else if (device != null) {
+                thingySdkManager.disconnectFromAllThingies()
             }
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        thingySdkManager.bindService(this, ThingyService::class.java)
+        ThingyListenerHelper.registerThingyListener(this, thingyListener)
+    }
+
+    override fun onStop() {
+        if (device != null) {
+            thingySdkManager.disconnectFromAllThingies()
+        }
+        thingySdkManager.unbindService(this);
+        super.onStop()
+    }
+
+    override fun onServiceConnected() {
+        binder = thingySdkManager.getThingyBinder() as ThingyBinder
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -69,5 +102,172 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun onServiceDiscoveryCompletion(device: BluetoothDevice) {
+        thingySdkManager.enableEnvironmentNotifications(device, true)
+    }
+
+    private val thingyListener: ThingyListener = object : ThingyListener {
+        override fun onDeviceConnected(device: BluetoothDevice, connectionState: Int) {
+            if (device == this@MainActivity.device) {
+                showToast(
+                    this@MainActivity,
+                    getString(R.string.connected)
+                )
+            }
+        }
+
+        override fun onDeviceDisconnected(device: BluetoothDevice, connectionState: Int) {
+            if (device == this@MainActivity.device) {
+                showToast(
+                    this@MainActivity,
+                    getString(R.string.disconnected)
+                )
+            }
+        }
+
+        override fun onServiceDiscoveryCompleted(device: BluetoothDevice) {
+            onServiceDiscoveryCompletion(device)
+        }
+
+        override fun onBatteryLevelChanged(
+            bluetoothDevice: BluetoothDevice,
+            batteryLevel: Int
+        ) {
+        }
+
+        override fun onTemperatureValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            temperature: String
+        ) {
+        }
+
+        override fun onPressureValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            pressure: String
+        ) {
+        }
+
+        override fun onHumidityValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            humidity: String
+        ) {
+        }
+
+        override fun onAirQualityValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            eco2: Int,
+            tvoc: Int
+        ) {
+        }
+
+        override fun onColorIntensityValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            red: Float,
+            green: Float,
+            blue: Float,
+            alpha: Float
+        ) {
+        }
+
+        override fun onButtonStateChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            buttonState: Int
+        ) {
+        }
+
+        override fun onTapValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            direction: Int,
+            count: Int
+        ) {
+        }
+
+        override fun onOrientationValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            orientation: Int
+        ) {
+        }
+
+        override fun onQuaternionValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            w: Float,
+            x: Float,
+            y: Float,
+            z: Float
+        ) {
+        }
+
+        override fun onPedometerValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            steps: Int,
+            duration: Long
+        ) {
+        }
+
+        override fun onAccelerometerValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            x: Float,
+            y: Float,
+            z: Float
+        ) {
+        }
+
+        override fun onGyroscopeValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            x: Float,
+            y: Float,
+            z: Float
+        ) {
+        }
+
+        override fun onCompassValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            x: Float,
+            y: Float,
+            z: Float
+        ) {
+        }
+
+        override fun onEulerAngleChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            roll: Float,
+            pitch: Float,
+            yaw: Float
+        ) {
+        }
+
+        override fun onRotationMatrixValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            matrix: ByteArray
+        ) {
+        }
+
+        override fun onHeadingValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            heading: Float
+        ) {
+        }
+
+        override fun onGravityVectorChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            x: Float,
+            y: Float,
+            z: Float
+        ) {
+        }
+
+        override fun onSpeakerStatusValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            status: Int
+        ) {
+        }
+
+        override fun onMicrophoneValueChangedEvent(
+            bluetoothDevice: BluetoothDevice,
+            data: ByteArray
+        ) {
+        }
     }
 }
