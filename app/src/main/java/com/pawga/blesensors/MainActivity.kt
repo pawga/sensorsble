@@ -56,8 +56,8 @@ class MainActivity : AppCompatActivity(), ThingySdkManager.ServiceConnectionList
 
         bluetoothManager.bluetoothDevice.observe(this, Observer {
             if (it != null) {
-                thingySdkManager.connectToThingy(this, device, ThingyService::class.java)
                 device = it
+                thingySdkManager.connectToThingy(this, device, ThingyService::class.java)
             } else if (device != null) {
                 thingySdkManager.disconnectFromAllThingies()
             }
@@ -110,21 +110,11 @@ class MainActivity : AppCompatActivity(), ThingySdkManager.ServiceConnectionList
 
     private val thingyListener: ThingyListener = object : ThingyListener {
         override fun onDeviceConnected(device: BluetoothDevice, connectionState: Int) {
-            if (device == this@MainActivity.device) {
-                showToast(
-                    this@MainActivity,
-                    getString(R.string.connected)
-                )
-            }
+            Timber.d("onDeviceConnected")
         }
 
         override fun onDeviceDisconnected(device: BluetoothDevice, connectionState: Int) {
-            if (device == this@MainActivity.device) {
-                showToast(
-                    this@MainActivity,
-                    getString(R.string.disconnected)
-                )
-            }
+            Timber.d("onDeviceDisconnected")
         }
 
         override fun onServiceDiscoveryCompleted(device: BluetoothDevice) {
@@ -141,18 +131,21 @@ class MainActivity : AppCompatActivity(), ThingySdkManager.ServiceConnectionList
             bluetoothDevice: BluetoothDevice,
             temperature: String
         ) {
+            Timber.d("Temperature: $temperature")
         }
 
         override fun onPressureValueChangedEvent(
             bluetoothDevice: BluetoothDevice,
             pressure: String
         ) {
+            Timber.d("Pressure: $pressure")
         }
 
         override fun onHumidityValueChangedEvent(
             bluetoothDevice: BluetoothDevice,
             humidity: String
         ) {
+            Timber.d("Humidity: $humidity")
         }
 
         override fun onAirQualityValueChangedEvent(
@@ -160,6 +153,7 @@ class MainActivity : AppCompatActivity(), ThingySdkManager.ServiceConnectionList
             eco2: Int,
             tvoc: Int
         ) {
+            Timber.d("AirQuality: $eco2 - $tvoc")
         }
 
         override fun onColorIntensityValueChangedEvent(
@@ -169,6 +163,7 @@ class MainActivity : AppCompatActivity(), ThingySdkManager.ServiceConnectionList
             blue: Float,
             alpha: Float
         ) {
+            Timber.d("ColorIntensity: $alpha:$red:$green:$blue")
         }
 
         override fun onButtonStateChangedEvent(
