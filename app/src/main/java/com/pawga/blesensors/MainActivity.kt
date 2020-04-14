@@ -18,7 +18,6 @@ import com.google.android.material.navigation.NavigationView
 import com.pawga.common.bluetooth.BluetoothManager
 import com.pawga.common.bluetooth.ThingyService
 import com.pawga.common.bluetooth.ThingyService.ThingyBinder
-import com.pawga.common.bluetooth.showToast
 import no.nordicsemi.android.thingylib.ThingyListener
 import no.nordicsemi.android.thingylib.ThingyListenerHelper
 import no.nordicsemi.android.thingylib.ThingySdkManager
@@ -80,6 +79,9 @@ class MainActivity : AppCompatActivity(), ThingySdkManager.ServiceConnectionList
 
     override fun onServiceConnected() {
         binder = thingySdkManager.getThingyBinder() as ThingyBinder
+        if (device != null && thingySdkManager.hasInitialServiceDiscoverCompleted(device)) {
+            onServiceDiscoveryCompletion(device!!)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
