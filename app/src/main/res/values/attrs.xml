@@ -5,12 +5,14 @@
         <attr name="bigType" format="string"/>
         <attr name="bigValue" format="string"/>
         <attr name="bigUnit" format="string"/>
+        <attr name="bigUnitFormatString" format="string"/>
     </declare-styleable>
 
     <declare-styleable name="SensorView">
         <attr name="smallType" format="reference"/>
         <attr name="smallValue" format="string"/>
         <attr name="smallUnit" format="string"/>
+        <attr name="smallUnitFormatString" format="string"/>
     </declare-styleable>
 
 </resources>

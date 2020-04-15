@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.pawga.blesensors.R
 
@@ -16,18 +15,27 @@ import com.pawga.blesensors.R
 
 class SensorBigView(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
     private val type: TextView
-    private val value: TextView
+    private val valueText: TextView
     private val unit: TextView
     private val colorView: View
     private val colorTextView: TextView
     private val sensorAlarm: ImageView
+    private val format: String
+
+    private var _value: Double = 0.0
+    var value: Double?
+        get() = _value
+        set(value) {
+            _value = value ?: 0.0
+            valueText.text = format.format(_value)
+        }
 
     init {
         LinearLayout.inflate(context, R.layout.sensor_big_view, this)
         val attributes = context.obtainStyledAttributes(attrs, R.styleable.SensorBigView)
 
         type = findViewById(R.id.sensorTypeTextView)
-        value = findViewById(R.id.sensorValueTextView)
+        valueText = findViewById(R.id.sensorValueTextView)
         unit = findViewById(R.id.sensorUnitTextView)
         colorView = findViewById(R.id.sensorColorView)
         colorTextView = findViewById(R.id.sensorColorTextView)
@@ -35,8 +43,9 @@ class SensorBigView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
 
         try {
             type.text = attributes.getString(R.styleable.SensorBigView_bigType)
-            value.text = attributes.getString(R.styleable.SensorBigView_bigValue)
+            valueText.text = attributes.getString(R.styleable.SensorBigView_bigValue)
             unit.text  = attributes.getString(R.styleable.SensorBigView_bigUnit)
+            format = attributes.getString(R.styleable.SensorBigView_bigUnitFormatString) ?: "%.0f"
         } finally {
             attributes.recycle()
         }

@@ -42,6 +42,21 @@ class BluetoothManager {
 
     val bluetoothDevice = MutableLiveData<BluetoothDevice?>()
 
+    private val _temperature = MutableLiveData<Double?>()
+    val temperature: LiveData<Double?> = _temperature // Температура
+
+    private val _pressure = MutableLiveData<Double?>()
+    val pressure: LiveData<Double?> = _pressure // Давление
+
+    private val _humidity = MutableLiveData<Int?>()
+    val humidity: LiveData<Int?> = _humidity // Влажность
+
+    private val _carbon = MutableLiveData<Double?>()
+    val carbon: LiveData<Double?> = _carbon // Концентрации углекислого газа ( сО2 )
+
+    private val _tvoc = MutableLiveData<Double?>()
+    val tvoc: LiveData<Double?> = _tvoc // Концентрации совокупных летучих органических соединений
+
     init {
         thingySdkManager = ThingySdkManager.getInstance()
     }
@@ -154,21 +169,21 @@ class BluetoothManager {
             bluetoothDevice: BluetoothDevice,
             temperature: String
         ) {
-            Timber.d("Temperature: $temperature")
+            this@BluetoothManager._temperature.value = temperature.toDoubleOrNull()
         }
 
         override fun onPressureValueChangedEvent(
             bluetoothDevice: BluetoothDevice,
             pressure: String
         ) {
-            Timber.d("Pressure: $pressure")
+            this@BluetoothManager._pressure.value = pressure.toDoubleOrNull()
         }
 
         override fun onHumidityValueChangedEvent(
             bluetoothDevice: BluetoothDevice,
             humidity: String
         ) {
-            Timber.d("Humidity: $humidity")
+            this@BluetoothManager._humidity.value = humidity.toIntOrNull()
         }
 
         override fun onAirQualityValueChangedEvent(
@@ -176,7 +191,8 @@ class BluetoothManager {
             eco2: Int,
             tvoc: Int
         ) {
-            Timber.d("AirQuality: $eco2 - $tvoc")
+            this@BluetoothManager._carbon.value = eco2.toDouble()
+            this@BluetoothManager._tvoc.value = tvoc.toDouble()
         }
 
         override fun onColorIntensityValueChangedEvent(

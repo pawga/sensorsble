@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:bigType="CO2"
         app:bigUnit="PPM"
-        app:bigValue="766">
+        app:bigValue="">
     </com.pawga.blesensors.ui.SensorViews.SensorBigView>
 
     <com.pawga.blesensors.ui.SensorViews.SensorView
@@ -28,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@+id/sensorBigView"
         app:smallType="@drawable/ic_temp"
         app:smallUnit="C"
-        app:smallValue="26"></com.pawga.blesensors.ui.SensorViews.SensorView>
+        app:smallValue="" />
 
     <com.pawga.blesensors.ui.SensorViews.SensorView
         android:id="@+id/sensorHumidityView"
@@ -37,8 +37,9 @@
         app:layout_constraintStart_toStartOf="@+id/sensorPressureView"
         app:layout_constraintTop_toTopOf="@+id/sensorTemperatureView"
         app:smallType="@drawable/ic_humidity"
-        app:smallUnit="%"
-        app:smallValue="32"></com.pawga.blesensors.ui.SensorViews.SensorView>
+        app:smallUnitFormatString="%.0f"
+        app:smallUnit="%.0f"
+        app:smallValue="" />
 
     <com.pawga.blesensors.ui.SensorViews.SensorView
         android:id="@+id/sensorPressureView"
@@ -48,8 +49,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/sensorLeafView"
         app:smallType="@drawable/ic_pressure"
+        app:smallUnitFormatString="%.0f"
         app:smallUnit="hPa"
-        app:smallValue="1105"></com.pawga.blesensors.ui.SensorViews.SensorView>
+        app:smallValue="" />
 
     <com.pawga.blesensors.ui.SensorViews.SensorView
         android:id="@+id/sensorLeafView"
@@ -59,7 +61,8 @@
         app:layout_constraintStart_toStartOf="@+id/sensorTemperatureView"
         app:layout_constraintTop_toBottomOf="@+id/sensorTemperatureView"
         app:smallType="@drawable/ic_leaf"
+        app:smallUnitFormatString="%.0f"
         app:smallUnit="ppb"
-        app:smallValue="122"></com.pawga.blesensors.ui.SensorViews.SensorView>
+        app:smallValue="" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
