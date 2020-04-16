@@ -169,12 +169,7 @@ class BluetoothManager {
             bluetoothDevice: BluetoothDevice,
             temperature: String
         ) {
-            val _temperature = temperature.toDoubleOrNull()
-            if (_temperature != null) {
-                this@BluetoothManager._temperature.value = _temperature / 1.150 //todo корректировка
-            } else {
-                this@BluetoothManager._temperature.value = null
-            }
+            this@BluetoothManager._temperature.value = temperature.toDoubleOrNull()
         }
 
         override fun onPressureValueChangedEvent(
