@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="@+id/sensorTemperatureView"
         app:smallType="@drawable/ic_humidity"
         app:smallUnitFormatString="%.0f"
-        app:smallUnit="%.0f"
+        app:smallUnit="%"
         app:smallValue="" />
 
     <com.pawga.blesensors.ui.SensorViews.SensorView
@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="@+id/sensorLeafView"
         app:smallType="@drawable/ic_pressure"
         app:smallUnitFormatString="%.0f"
-        app:smallUnit="hPa"
+        app:smallUnit="mmHg"
         app:smallValue="" />
 
     <com.pawga.blesensors.ui.SensorViews.SensorView

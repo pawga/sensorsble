@@ -176,7 +176,12 @@ class BluetoothManager {
             bluetoothDevice: BluetoothDevice,
             pressure: String
         ) {
-            this@BluetoothManager._pressure.value = pressure.toDoubleOrNull()
+            val _pressure = pressure.toDoubleOrNull()
+            if (_pressure != null) {
+                this@BluetoothManager._pressure.value = _pressure / 1.333333 // перевод в мм рт столба
+            } else {
+                this@BluetoothManager._pressure.value = null
+            }
         }
 
         override fun onHumidityValueChangedEvent(
