@@ -25,6 +25,7 @@ class BluetoothManager {
     private var device: BluetoothDevice? = null
     private var binder: ThingyService.ThingyBinder? = null
     private lateinit var activityContext: AppCompatActivity
+    private var isConnected = false
 
     var isScanning = false
         private set
@@ -62,6 +63,8 @@ class BluetoothManager {
     }
 
     fun bindService(context: AppCompatActivity, service: Class<out BaseThingyService?>?) {
+        if (isConnected) return
+
         activityContext = context
         thingySdkManager.bindService(activityContext, service)
         ThingyListenerHelper.registerThingyListener(activityContext, thingyListener)
@@ -74,13 +77,15 @@ class BluetoothManager {
                 thingySdkManager.disconnectFromAllThingies()
             }
         })
+        isConnected = true
     }
 
     fun unbindService(context: Context) {
         if (device != null) {
             thingySdkManager.disconnectFromAllThingies()
         }
-        thingySdkManager.unbindService(activityContext);
+        thingySdkManager.unbindService(activityContext)
+        isConnected = false
     }
 
     fun startScan() {

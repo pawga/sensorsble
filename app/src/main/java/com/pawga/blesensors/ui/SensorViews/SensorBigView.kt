@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.pawga.blesensors.R
 
 /**
@@ -28,6 +29,7 @@ class SensorBigView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
         set(value) {
             _value = value ?: 0.0
             valueText.text = format.format(_value)
+            setIndicatorColor()
         }
 
     init {
@@ -48,6 +50,25 @@ class SensorBigView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
             format = attributes.getString(R.styleable.SensorBigView_bigUnitFormatString) ?: "%.0f"
         } finally {
             attributes.recycle()
+        }
+    }
+
+    private fun setIndicatorColor() = when(value?.toInt() ?: 0) {
+        in 0..1000 -> {
+            colorView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreen))
+            colorTextView.text = resources.getText(R.string.good)
+        }
+        in 1001..2000 -> {
+            colorView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorYellow))
+            colorTextView.text = resources.getText(R.string.attention)
+        }
+        in 2001..5000 -> {
+            colorView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorRed))
+            colorTextView.text = resources.getText(R.string.dangerous)
+        }
+        else -> {
+            colorView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorBrown))
+            colorTextView.text = resources.getText(R.string.very_dangerous)
         }
     }
 }

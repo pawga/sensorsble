@@ -56,7 +56,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="#39E28F"
+        android:background="@color/colorGreen"
         app:layout_constraintBottom_toTopOf="@+id/sensorColorLinearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,28 +93,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#39E28F" />
+            android:background="@color/colorGreen" />
 
         <View
             android:id="@+id/sensorSmallColorView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#FCD983" />
+            android:background="@color/colorYellow" />
 
         <View
             android:id="@+id/sensorSmallColorView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#F83A00" />
+            android:background="@color/colorRed" />
 
         <View
             android:id="@+id/sensorSmallColorView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#9A1C00" />
+            android:background="@color/colorBrown" />
     </LinearLayout>
 
     <LinearLayout

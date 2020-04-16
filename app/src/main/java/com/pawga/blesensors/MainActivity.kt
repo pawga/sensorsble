@@ -54,9 +54,9 @@ class MainActivity : AppCompatActivity(), ThingySdkManager.ServiceConnectionList
         bluetoothManager.bindService(this, ThingyService::class.java)
     }
 
-    override fun onStop() {
-        bluetoothManager.unbindService(this);
-        super.onStop()
+    override fun onDestroy() {
+        bluetoothManager.unbindService(this)
+        super.onDestroy()
     }
 
     override fun onServiceConnected() {

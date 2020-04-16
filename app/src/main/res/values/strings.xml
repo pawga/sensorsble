@@ -37,5 +37,9 @@
     <string name="scan_stopped">Scan stopped</string>
     <string name="connected">Connected</string>
     <string name="disconnected">Disconnected</string>
+    <string name="good">Good</string>
+    <string name="attention">Attention</string>
+    <string name="dangerous">Dangerous</string>
+    <string name="very_dangerous">Very dangerous</string>
 
 </resources>
