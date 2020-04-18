@@ -73,7 +73,6 @@ test:unit:
 #    - adb shell input keyevent 82
 #    - ./gradlew cAT
 
-
 ########################################################################
 # PACKAGE
 
