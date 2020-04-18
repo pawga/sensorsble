@@ -89,7 +89,7 @@ package:develop:
     - develop
   script:
     - ls -la
-    - mv app/build/outputs/apk/debug/app-debug.apk ./exported/aaaaaaa-debug.apk
+    - mv app/build/outputs/apk/debug/app-debug.apk ./exported/app-debug.apk
   dependencies:
     - build:develop
   artifacts:
@@ -104,7 +104,7 @@ package:release:unsigned:
   only:
     - master
   script:
-    - mv app/build/outputs/apk/release/app-release-unsigned.apk ./exported/${APP_NAME}-v$VERSION_NAME-release-unsigned.apk
+    - mv app/build/outputs/apk/release/app-release-unsigned.apk ./exported/app-release-unsigned.apk
   dependencies:
       - build:release
   artifacts:
