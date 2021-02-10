@@ -8,4 +8,5 @@ Nordic Thingy:52 is a compact, power-optimized, multi-sensor device built around
 ###For firmware and mobile developers:
 Thingy can be flashed with custom firmware, just like any other development kit from Nordic Semiconductor. 
 
-https://www.youtube.com/watch?v=zLtKHAAXC6g&feature=emb_imp_woyt&ab_channel=NordicSemiconductor 
+[![Nordic Semiconductor - Nordic Thingy:52](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://youtu.be/zLtKHAAXC6g)
+
