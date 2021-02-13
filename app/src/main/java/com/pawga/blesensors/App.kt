@@ -22,11 +22,15 @@ class App : Application() {
 
     private fun initializeKoin() {
         startKoin {
-            androidLogger(org.koin.core.logger.Level.DEBUG)
+            androidLogger()
             androidContext(this@App)
             androidFileProperties()
             fragmentFactory()
-            modules(appModule)
+            // TODO Await fix for Koin and replace the explicit invocations
+            //  of loadModules() and createRootScope() with a single call to modules()
+            //  (https://github.com/InsertKoinIO/koin/issues/847)
+            koin.loadModules(listOf(appModule))
+            koin.createRootScope()
         }
     }
 
