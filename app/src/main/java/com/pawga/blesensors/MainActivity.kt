@@ -1,6 +1,5 @@
 package com.pawga.blesensors
 
-import android.bluetooth.BluetoothDevice
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,7 +7,6 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -18,13 +16,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.pawga.common.bluetooth.BluetoothManager
 import com.pawga.common.bluetooth.ThingyService
-import com.pawga.common.bluetooth.ThingyService.ThingyBinder
-import no.nordicsemi.android.thingylib.ThingyListener
-import no.nordicsemi.android.thingylib.ThingyListenerHelper
 import no.nordicsemi.android.thingylib.ThingySdkManager
 import org.koin.android.ext.android.inject
-import timber.log.Timber
-
 
 class MainActivity : AppCompatActivity(), ThingySdkManager.ServiceConnectionListener {
 
@@ -42,8 +35,12 @@ class MainActivity : AppCompatActivity(), ThingySdkManager.ServiceConnectionList
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         navController = findNavController(R.id.nav_host_fragment)
-        appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+            ),
+            drawerLayout
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)

@@ -10,7 +10,6 @@ import com.pawga.blesensors.extensions.inflate
 import com.pawga.blesensors.model.ExtendedBluetoothDevice
 import kotlinx.android.synthetic.main.device_list_row.view.*
 import no.nordicsemi.android.support.v18.scanner.ScanResult
-import timber.log.Timber
 import java.util.ArrayList
 
 /**
@@ -34,7 +33,7 @@ class DeviceListAdapter(private val viewModel: ScanViewModel) : RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == TYPE_ITEM ) {
+        if (getItemViewType(position) == TYPE_ITEM) {
             val viewHolder = holder as? ViewHolderItem ?: return
             val device = devices[position - 1]
             viewHolder.name.text = device.name ?: viewHolder.view.context.getString(R.string.not_available)

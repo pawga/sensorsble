@@ -46,14 +46,14 @@ class SensorBigView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
         try {
             type.text = attributes.getString(R.styleable.SensorBigView_bigType)
             valueText.text = attributes.getString(R.styleable.SensorBigView_bigValue)
-            unit.text  = attributes.getString(R.styleable.SensorBigView_bigUnit)
+            unit.text = attributes.getString(R.styleable.SensorBigView_bigUnit)
             format = attributes.getString(R.styleable.SensorBigView_bigUnitFormatString) ?: "%.0f"
         } finally {
             attributes.recycle()
         }
     }
 
-    private fun setIndicatorColor() = when(value?.toInt() ?: 0) {
+    private fun setIndicatorColor() = when (value?.toInt() ?: 0) {
         in 0..1000 -> {
             colorView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreen))
             colorTextView.text = resources.getText(R.string.good)

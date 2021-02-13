@@ -74,7 +74,7 @@ class PermissionRationaleDialogFragment : DialogFragment(), DialogInterface.OnCl
             permission: String?,
             requestCode: Int,
             message: String?
-        ) : PermissionRationaleDialogFragment {
+        ): PermissionRationaleDialogFragment {
             val fragment = PermissionRationaleDialogFragment()
             val bundle = Bundle()
             bundle.putString(PERMISSION, permission)

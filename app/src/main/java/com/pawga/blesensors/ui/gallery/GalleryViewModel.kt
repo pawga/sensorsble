@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.pawga.blesensors.ui.slideshow.SlideshowViewModel
 
 class GalleryViewModel : ViewModel() {
 
@@ -12,7 +11,6 @@ class GalleryViewModel : ViewModel() {
         value = "This is gallery Fragment"
     }
     val text: LiveData<String> = _text
-
 
     /**
      * Factory for [LiveDataViewModel].

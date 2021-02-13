@@ -34,7 +34,8 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
     private lateinit var binding: ScanFragmentBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
@@ -59,15 +60,21 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
             }
         }
 
-        bluetoothManager.scanResults.observe(viewLifecycleOwner, Observer {
-            adapter.update(it)
-        })
-
-        bluetoothManager.bluetoothDevice.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                findNavController().popBackStack()
+        bluetoothManager.scanResults.observe(
+            viewLifecycleOwner,
+            Observer {
+                adapter.update(it)
             }
-        })
+        )
+
+        bluetoothManager.bluetoothDevice.observe(
+            viewLifecycleOwner,
+            Observer {
+                if (it != null) {
+                    findNavController().popBackStack()
+                }
+            }
+        )
 
         return binding.root
     }
@@ -118,16 +125,20 @@ class ScanFragment : Fragment(), PermissionRationaleDialogFragment.PermissionDia
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED) {
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             // When user pressed Deny and still wants to use this functionality, show the rationale
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            ) {
                 return
             }
             requestPermissions(
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_PERMISSION_REQ_CODE)
+                REQUEST_PERMISSION_REQ_CODE
+            )
             return
         }
 
