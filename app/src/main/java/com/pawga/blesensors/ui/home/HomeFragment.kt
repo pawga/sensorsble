@@ -11,7 +11,6 @@ import com.pawga.blesensors.R
 import com.pawga.blesensors.ui.SensorViews.SensorBigView
 import com.pawga.blesensors.ui.SensorViews.SensorView
 import com.pawga.common.bluetooth.BluetoothManager
-import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.ext.android.inject
 
 class HomeFragment : Fragment() {

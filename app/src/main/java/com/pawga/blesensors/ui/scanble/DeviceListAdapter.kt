@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pawga.blesensors.R
 import com.pawga.blesensors.extensions.inflate
 import com.pawga.blesensors.model.ExtendedBluetoothDevice
-import kotlinx.android.synthetic.main.device_list_row.view.*
 import no.nordicsemi.android.support.v18.scanner.ScanResult
 import java.util.ArrayList
 
@@ -81,10 +80,10 @@ class DeviceListAdapter(private val viewModel: ScanViewModel) : RecyclerView.Ada
     }
 
     inner class ViewHolderItem(val view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        val name: TextView = view.name
-        val address: TextView = view.address
-        val rssi: ImageView = view.rssi
-        val thingy: ImageView = view.icon_view
+        val name: TextView = view.findViewById(R.id.name)
+        val address: TextView = view.findViewById(R.id.address)
+        val rssi: ImageView = view.findViewById(R.id.rssi)
+        val thingy: ImageView = view.findViewById(R.id.icon_view)
         var extendedBluetoothDevice: ExtendedBluetoothDevice? = null
 
         init {

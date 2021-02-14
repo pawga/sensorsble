@@ -21,7 +21,7 @@ import java.util.*
  */
 class BluetoothManager {
 
-    private lateinit var thingySdkManager: ThingySdkManager
+    private var thingySdkManager: ThingySdkManager
     private var device: BluetoothDevice? = null
     private var binder: ThingyService.ThingyBinder? = null
     private lateinit var activityContext: AppCompatActivity
@@ -80,7 +80,7 @@ class BluetoothManager {
         isConnected = true
     }
 
-    fun unbindService(context: Context) {
+    fun unbindService() {
         if (device != null) {
             thingySdkManager.disconnectFromAllThingies()
         }
