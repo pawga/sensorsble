@@ -2,7 +2,9 @@ package com.pawga.blesensors
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+/* ktlint-disable no-wildcard-imports */
 import org.junit.Assert.*
+/* ktlint-enable no-wildcard-imports */
 import org.junit.Test
 import org.junit.runner.RunWith
 

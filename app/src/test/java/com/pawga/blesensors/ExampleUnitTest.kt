@@ -1,6 +1,8 @@
 package com.pawga.blesensors
 
+/* ktlint-disable no-wildcard-imports */
 import org.junit.Assert.*
+/* ktlint-enable no-wildcard-imports */
 import org.junit.Test
 
 /**
